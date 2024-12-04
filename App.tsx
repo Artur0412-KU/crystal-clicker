@@ -1,7 +1,4 @@
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
-import * as Haptics from 'expo-haptics'
-import { Image } from 'expo-image';
-import { useState } from 'react';
+import {StyleSheet} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from './screens/Home';
@@ -15,6 +12,7 @@ export default function App() {
       <Stack.Navigator screenOptions={
         {
           headerShown: false,
+          animation: 'none'
         }
       }>
         <Stack.Screen name='home' component={Home} />
