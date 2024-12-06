@@ -3,29 +3,11 @@ import React, { useRef, useState } from 'react'
 import { Animated, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import ModalExit from '../../components/ModalExit'
+import useClickStorage from '../../hooks/useClickStorage'
 
 export default function Game({navigation}) {
-  const [click, setClick] = useState(0)
+  const {click, handleClick, scaleAnimation} = useClickStorage('clicks')
   const [modal, setModal] = useState(false)
-  const scaleAnimation = useRef(new Animated.Value(1)).current;
-
-  const handleClick = () => {
-    Haptics.impactAsync()
-    setClick(click + 1)
-
-    Animated.sequence([
-      Animated.timing(scaleAnimation, {
-        toValue: 1.2, 
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnimation, {
-        toValue: 1, 
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start()
-  }
 
   const handleExit = () => {
     Haptics.selectionAsync()
