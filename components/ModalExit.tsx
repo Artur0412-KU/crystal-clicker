@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 
 export default function ModalExit({isVisible, onClose, onExit}) {
+  const [isActive, setIsActive] = useState(false)
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>Are you sure you want to leave the game?</Text>
             <View style = {styles.modalButtonContainer}>
-                <Pressable onPress={onExit}>
-                  <Text style={styles.exitModalText}>Yes</Text>
+                <Pressable onPress={onExit} onPressIn={() => setIsActive(true)} onPressOut = {() => setIsActive(false)}>
+                  <Text  style={[styles.exitModalText, isActive && styles.exitModalTextHover]}>Yes</Text>
                 </Pressable>
-                <Pressable onPress={onClose}>
-                  <Text style={styles.closeModalText}>No</Text>
+                <Pressable onPress={onClose} onPressIn={() => setIsActive(true)} onPressOut = {() => setIsActive(false)}>
+                  <Text  style={[styles.closeModalText, isActive && styles.closeModalTextHover]}>No</Text>
                 </Pressable>
             </View>
             
@@ -56,6 +57,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#BE3778",
         borderRadius: 10,
     },
+    exitModalTextHover: {
+      color: '#BE3778',
+      backgroundColor: 'white'
+    },
     closeModalText: {
         fontSize: 16,
         color: '#BE3778',
@@ -65,6 +70,10 @@ const styles = StyleSheet.create({
         paddingLeft: 31,
         backgroundColor: "white",
         borderRadius: 10,
+    },
+    closeModalTextHover: {
+      color: 'white',
+      backgroundColor: '#BE3778'
     },
     modalButtonContainer: {
         flexDirection: 'row',

@@ -8,6 +8,7 @@ import useClickStorage from '../../hooks/useClickStorage'
 export default function Game({navigation}) {
   const {click, handleClick, scaleAnimation} = useClickStorage('clicks')
   const [modal, setModal] = useState(false)
+  const [isActive, setIsActive] = useState(false)
 
   const handleExit = () => {
     Haptics.selectionAsync()
@@ -37,8 +38,8 @@ export default function Game({navigation}) {
       </View>
       <ModalExit isVisible={modal} onExit={() => handleExit()} onClose={() => handleCloseClick()}/>
       
-      <Pressable style = {styles.buttonExit} onPress={() => handleExitClick()}>
-        <Text style = {styles.buttonExitText}>Exit</Text>
+      <Pressable onPressIn={() => setIsActive(true)} onPressOut = {() => setIsActive(false)} style = {[styles.buttonExit, isActive && styles.buttonExitHover]} onPress={() => handleExitClick()}>
+        <Text onPressIn={() => setIsActive(true)} onPressOut = {() => setIsActive(false)} style = {[styles.buttonExitText, isActive && styles.buttonExitTextHover]}>Exit</Text>
       </Pressable>
     </SafeAreaView >
   )
@@ -76,10 +77,17 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       cursor: 'pointer',
     },
+    buttonExitHover: {
+      backgroundColor: '#BE3778',
+      color: 'white'
+    },
     buttonExitText: {
       fontSize: 24,
       fontWeight: 'bold',
       color: '#BE3778',
+    },
+    buttonExitTextHover: {
+      color: 'white'
     },
     progressBarContainer: {
       marginBottom: 70,
