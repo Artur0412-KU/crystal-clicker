@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React, { useEffect, useRef, useState } from 'react'
 import * as Haptics from 'expo-haptics'
-import { Animated } from 'react-native';
+import { Animated, AppState } from 'react-native';
 
 export default function useClickStorage(key: any) {
     const [click, setClick] = useState(0)
@@ -19,7 +19,23 @@ export default function useClickStorage(key: any) {
             }
         }
 
+        const clearClicksOnExit = async (appState: string) => {
+          if(appState === 'inactive' || appState === 'background') {
+            try {
+              await AsyncStorage.removeItem(key) 
+              setClick(0)
+            } catch(err) {
+              console.error(err)
+            }
+          }
+        }
+
         loadClicks()
+
+        const subscription = AppState.addEventListener('change', clearClicksOnExit)
+        return () => {
+          subscription.remove()
+        }
     }, [key])
 
     const handleClick = async () => {
@@ -47,6 +63,15 @@ export default function useClickStorage(key: any) {
         }
     }
 
-    return {click, handleClick, scaleAnimation}
+    const resetClicks = async () => {
+      try {
+      await AsyncStorage.removeItem(key)
+      setClick(0)
+      } catch(err) {
+        console.error(err)
+      }
+    }
+
+    return {click, handleClick, scaleAnimation, resetClicks}
 
 }
