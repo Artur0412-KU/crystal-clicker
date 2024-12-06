@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react'
 import { Animated, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import ModalExit from '../../components/ModalExit'
-import { StatusBar } from 'expo-status-bar'
 
 export default function Game({navigation}) {
   const [click, setClick] = useState(0)
@@ -52,10 +51,10 @@ export default function Game({navigation}) {
             <Image source={require('../../assets/icon-main.png')} style={{ width: 75, height: 106 }}/>
           </Pressable>
         </Animated.View>
-        
         <Text style = {styles.clickerText}>{click}</Text>
       </View>
       <ModalExit isVisible={modal} onExit={() => handleExit()} onClose={() => handleCloseClick()}/>
+      
       <Pressable style = {styles.buttonExit} onPress={() => handleExitClick()}>
         <Text style = {styles.buttonExitText}>Exit</Text>
       </Pressable>
@@ -100,4 +99,11 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: '#BE3778',
     },
+    progressBarContainer: {
+      marginBottom: 70,
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center'
+    }
 })
