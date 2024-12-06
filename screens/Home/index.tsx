@@ -1,13 +1,14 @@
 import { Image } from 'expo-image';
-import React from 'react'
+import React, { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import * as Haptics from 'expo-haptics'
 
 export default function Home({navigation}) {
-    const handleClick = () => {
-        Haptics.selectionAsync()
-        navigation.navigate('game')
-      }
+  const [isActive, setIsActive] = useState(false)
+  const handleClick = () => {
+    Haptics.selectionAsync()
+    navigation.navigate('game')
+  }
   return (
     <View style={styles.container}>
       <View style={styles.containerTop}>
@@ -15,10 +16,14 @@ export default function Home({navigation}) {
         <Image source={require('../../assets/icon-main.png')} style={{ width: 75, height: 106 }}/>
       </View>
       <Pressable 
-       style = {styles.button}
+       style = {[styles.button, isActive && styles.buttonHover]}
        onPress={() => handleClick()}
+       onPressIn={() => setIsActive(true)} onPressOut = {() => setIsActive(false)}
       >
-        <Text style = {styles.buttonText}>Start</Text>
+        <Text 
+          style = {[styles.buttonText, isActive && styles.buttonTextHover]}
+          onPressIn={() => setIsActive(true)} onPressOut = {() => setIsActive(false)}
+        >Start</Text>
       </Pressable>
     </View>
   )
@@ -57,9 +62,15 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       cursor: 'pointer'
     },
+    buttonHover: {
+       backgroundColor: 'white'
+    },
     buttonText: {
       fontSize: 24,
       fontWeight: 'bold',
       color: 'white',
+    }, 
+    buttonTextHover: {
+      color: '#BE3778'
     }
   });
