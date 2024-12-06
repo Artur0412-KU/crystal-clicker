@@ -3,30 +3,11 @@ import React, { useRef, useState } from 'react'
 import { Animated, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import ModalExit from '../../components/ModalExit'
-import { StatusBar } from 'expo-status-bar'
+import useClickStorage from '../../hooks/useClickStorage'
 
 export default function Game({navigation}) {
-  const [click, setClick] = useState(0)
+  const {click, handleClick, scaleAnimation} = useClickStorage('clicks')
   const [modal, setModal] = useState(false)
-  const scaleAnimation = useRef(new Animated.Value(1)).current;
-
-  const handleClick = () => {
-    Haptics.impactAsync()
-    setClick(click + 1)
-
-    Animated.sequence([
-      Animated.timing(scaleAnimation, {
-        toValue: 1.2, 
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnimation, {
-        toValue: 1, 
-        duration: 100,
-        useNativeDriver: true,
-      }),
-    ]).start()
-  }
 
   const handleExit = () => {
     Haptics.selectionAsync()
@@ -52,10 +33,10 @@ export default function Game({navigation}) {
             <Image source={require('../../assets/icon-main.png')} style={{ width: 75, height: 106 }}/>
           </Pressable>
         </Animated.View>
-        
         <Text style = {styles.clickerText}>{click}</Text>
       </View>
       <ModalExit isVisible={modal} onExit={() => handleExit()} onClose={() => handleCloseClick()}/>
+      
       <Pressable style = {styles.buttonExit} onPress={() => handleExitClick()}>
         <Text style = {styles.buttonExitText}>Exit</Text>
       </Pressable>
@@ -100,4 +81,11 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       color: '#BE3778',
     },
+    progressBarContainer: {
+      marginBottom: 70,
+      width: '100%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center'
+    }
 })
