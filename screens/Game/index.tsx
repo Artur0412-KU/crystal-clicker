@@ -4,12 +4,15 @@ import { Animated, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from
 import * as Haptics from 'expo-haptics'
 import ModalExit from '../../components/ModalExit'
 import useClickStorage from '../../hooks/useClickStorage'
+import { useHover, useActive } from 'react-native-web-hooks'
 
 export default function Game({navigation}) {
   const {click, handleClick, scaleAnimation} = useClickStorage('clicks')
   const [modal, setModal] = useState(false)
   const [isActive, setIsActive] = useState(false)
 
+  const ref = useRef(null)
+  
   const handleExit = () => {
     Haptics.selectionAsync()
     navigation.navigate('home')
