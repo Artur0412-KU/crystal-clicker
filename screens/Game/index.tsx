@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Animated, Modal, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import ModalExit from '../../components/ModalExit'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Game({navigation}) {
   const [click, setClick] = useState(0)
@@ -42,6 +43,7 @@ export default function Game({navigation}) {
     Haptics.selectionAsync()
     setModal(!modal)
   }
+
   return (
     <SafeAreaView style = {styles.container}>
       <View style = {styles.clickerContainer}>
